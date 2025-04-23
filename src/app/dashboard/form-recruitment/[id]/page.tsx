@@ -75,19 +75,19 @@ export default function FormTemplatePage() {
   const [openSpecificDialog, setOpenSpecificDialog] = useState(false)
   const [openExcludeDialog, setOpenExcludeDialog] = useState(false)
   const [selectedCodeApproval, setSelectedCodeApproval] = useState<ICodeApproval | null>(null)
-  
+
   // Form states for adding code approval
   const [codeApprovalOptions, setCodeApprovalOptions] = useState<CodeApprovalOption[]>([])
   const [selectedCodeApprovalId, setSelectedCodeApprovalId] = useState('')
   const [approvalStatus, setApprovalStatus] = useState('active')
   const [indexSTT, setIndexSTT] = useState(0)
-  
+
   // Forms for specific code approve
   const [specificEmployeeCode, setSpecificEmployeeCode] = useState('')
   const [specificEmployeeName, setSpecificEmployeeName] = useState('')
   const [specificEmployeeEmail, setSpecificEmployeeEmail] = useState('')
   const [selectedSpecificIndex, setSelectedSpecificIndex] = useState<number | null>(null)
-  
+
   // Forms for exclude code approve
   const [excludeEmployeeCode, setExcludeEmployeeCode] = useState('')
   const [selectedExcludeIndex, setSelectedExcludeIndex] = useState<number | null>(null)
@@ -106,7 +106,7 @@ export default function FormTemplatePage() {
         console.error('Error fetching form template:', error)
         toast.error("Không thể tải thông tin form template")
       } finally {
-        setLoading(false) 
+        setLoading(false)
       }
     }
 
@@ -119,7 +119,7 @@ export default function FormTemplatePage() {
       }
     }
     fetchFormTemplate()
-     fetchCodeApprovals()
+    fetchCodeApprovals()
   }, [toast])
 
   // Update form template name
@@ -131,7 +131,7 @@ export default function FormTemplatePage() {
           en: nameFormEn
         }
       })
-      
+
       if (formTemplate) {
         setFormTemplate({
           ...formTemplate,
@@ -141,7 +141,7 @@ export default function FormTemplatePage() {
           }
         })
       }
-      
+
       setIsEditing(false)
       toast.success("Đã cập nhật tên form")
     } catch (error) {
@@ -158,11 +158,11 @@ export default function FormTemplatePage() {
         status: approvalStatus,
         indexSTT: indexSTT
       })
-      
+
       setFormTemplate(response.data.data)
       setOpenCodeApprovalDialog(false)
       resetCodeApprovalForm()
-      
+
       toast.success("Đã thêm code approval")
     } catch (error: any) {
       console.error('Error adding code approval:', error)
@@ -173,7 +173,7 @@ export default function FormTemplatePage() {
   // Update code approval
   const updateCodeApproval = async () => {
     if (!selectedCodeApproval) return
-    
+
     try {
       const response = await axios.put(
         `/api/formTemplate/${id}/code-approval/${selectedCodeApproval._id}`,
@@ -182,11 +182,11 @@ export default function FormTemplatePage() {
           indexSTT: indexSTT
         }
       )
-      
+
       setFormTemplate(response.data.data)
       setOpenCodeApprovalDialog(false)
       resetCodeApprovalForm()
-      
+
       toast.success("Đã cập nhật code approval")
     } catch (error: any) {
       console.error('Error updating code approval:', error)
@@ -197,7 +197,7 @@ export default function FormTemplatePage() {
   // Add specific code approve
   const addSpecificCodeApprove = async () => {
     if (!selectedCodeApproval) return
-    
+
     try {
       const response = await axios.post(
         `/api/formTemplate/${id}/code-approval/${selectedCodeApproval._id}/specific-code-approve`,
@@ -207,10 +207,10 @@ export default function FormTemplatePage() {
           employeeEmail: specificEmployeeEmail
         }
       )
-      
+
       setFormTemplate(response.data.data)
       resetSpecificForm()
-      
+
       toast.success("Đã thêm specific code approve")
     } catch (error) {
       console.error('Error adding specific code approve:', error)
@@ -221,7 +221,7 @@ export default function FormTemplatePage() {
   // Update specific code approve
   const updateSpecificCodeApprove = async () => {
     if (!selectedCodeApproval || selectedSpecificIndex === null) return
-    
+
     try {
       const response = await axios.put(
         `/api/formTemplate/${id}/code-approval/${selectedCodeApproval._id}/specific-code-approve/${selectedSpecificIndex}`,
@@ -231,10 +231,10 @@ export default function FormTemplatePage() {
           employeeEmail: specificEmployeeEmail
         }
       )
-      
+
       setFormTemplate(response.data.data)
       resetSpecificForm()
-      
+
       toast.success("Đã cập nhật specific code approve")
     } catch (error) {
       console.error('Error updating specific code approve:', error)
@@ -245,14 +245,14 @@ export default function FormTemplatePage() {
   // Delete specific code approve
   const deleteSpecificCodeApprove = async (index: number) => {
     if (!selectedCodeApproval) return
-    
+
     try {
       const response = await axios.delete(
         `/api/formTemplate/${id}/code-approval/${selectedCodeApproval._id}/specific-code-approve/${index}`
       )
-      
+
       setFormTemplate(response.data.data)
-      
+
       toast.success("Đã xóa specific code approve")
     } catch (error) {
       console.error('Error deleting specific code approve:', error)
@@ -263,7 +263,7 @@ export default function FormTemplatePage() {
   // Add exclude code approve
   const addExcludeCodeApprove = async () => {
     if (!selectedCodeApproval) return
-    
+
     try {
       const response = await axios.post(
         `/api/formTemplate/${id}/code-approval/${selectedCodeApproval._id}/exclude-code-approve`,
@@ -271,10 +271,10 @@ export default function FormTemplatePage() {
           employeeCode: excludeEmployeeCode
         }
       )
-      
+
       setFormTemplate(response.data.data)
       resetExcludeForm()
-      
+
       toast.success("Đã thêm exclude code approve")
     } catch (error) {
       console.error('Error adding exclude code approve:', error)
@@ -285,7 +285,7 @@ export default function FormTemplatePage() {
   // Update exclude code approve
   const updateExcludeCodeApprove = async () => {
     if (!selectedCodeApproval || selectedExcludeIndex === null) return
-    
+
     try {
       const response = await axios.put(
         `/api/formTemplate/${id}/code-approval/${selectedCodeApproval._id}/exclude-code-approve/${selectedExcludeIndex}`,
@@ -293,10 +293,10 @@ export default function FormTemplatePage() {
           employeeCode: excludeEmployeeCode
         }
       )
-      
+
       setFormTemplate(response.data.data)
       resetExcludeForm()
-      
+
       toast.success("Đã cập nhật exclude code approve")
     } catch (error) {
       console.error('Error updating exclude code approve:', error)
@@ -307,14 +307,14 @@ export default function FormTemplatePage() {
   // Delete exclude code approve
   const deleteExcludeCodeApprove = async (index: number) => {
     if (!selectedCodeApproval) return
-    
+
     try {
       const response = await axios.delete(
         `/api/formTemplate/${id}/code-approval/${selectedCodeApproval._id}/exclude-code-approve/${index}`
       )
-      
+
       setFormTemplate(response.data.data)
-      
+
       toast.success("Đã xóa exclude code approve")
     } catch (error) {
       console.error('Error deleting exclude code approve:', error)
@@ -337,14 +337,14 @@ export default function FormTemplatePage() {
     setIndexSTT(0)
     setSelectedCodeApproval(null)
   }
-  
+
   const resetSpecificForm = () => {
     setSpecificEmployeeCode('')
     setSpecificEmployeeName('')
     setSpecificEmployeeEmail('')
     setSelectedSpecificIndex(null)
   }
-  
+
   const resetExcludeForm = () => {
     setExcludeEmployeeCode('')
     setSelectedExcludeIndex(null)
@@ -378,7 +378,7 @@ export default function FormTemplatePage() {
     return <div className="flex justify-center items-center min-h-screen">Đang tải...</div>
   }
 
- 
+
 
   return (
     <div className="container mx-auto py-8 space-y-6">
@@ -386,8 +386,8 @@ export default function FormTemplatePage() {
         <CardHeader>
           <CardTitle className="flex justify-between items-center">
             <span>Thông tin Form Template</span>
-            <Button 
-              variant={isEditing ? "default" : "outline"} 
+            <Button
+              variant={isEditing ? "default" : "outline"}
               onClick={() => isEditing ? updateFormName() : setIsEditing(true)}
             >
               {isEditing ? <><Save className="w-4 h-4 mr-2" /> Lưu</> : <><Edit className="w-4 h-4 mr-2" /> Sửa</>}
@@ -401,24 +401,24 @@ export default function FormTemplatePage() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="nameVi">Tên form (Tiếng Việt)</Label>
-              <Input 
-                id="nameVi" 
-                value={nameFormVi} 
+              <Input
+                id="nameVi"
+                value={nameFormVi}
                 onChange={(e) => setNameFormVi(e.target.value)}
                 disabled={!isEditing}
               />
             </div>
             <div>
               <Label htmlFor="nameEn">Tên form (Tiếng Anh)</Label>
-              <Input 
-                id="nameEn" 
-                value={nameFormEn} 
+              <Input
+                id="nameEn"
+                value={nameFormEn}
                 onChange={(e) => setNameFormEn(e.target.value)}
                 disabled={!isEditing}
               />
             </div>
           </div>
-          
+
           <div className="grid grid-cols-3 gap-4">
             <div>
               <Label>Loại form</Label>
@@ -431,15 +431,17 @@ export default function FormTemplatePage() {
             <div>
               <Label>Ngày áp dụng</Label>
               <div className="mt-1 p-2 border rounded">
-                {new Date(formTemplate?.dateApply).toLocaleDateString('vi-VN')}
+                {formTemplate?.dateApply
+                  ? new Date(formTemplate.dateApply).toLocaleDateString('vi-VN')
+                  : 'Chưa có ngày áp dụng'}
               </div>
             </div>
           </div>
-          
+
           <div>
             <Label>Trạng thái</Label>
             <div className="mt-1">
-              <Badge variant={formTemplate?.status === 'active' ? "success" : "destructive"}>
+              <Badge variant={formTemplate?.status === 'active' ? "default" : "destructive"}>
                 {formTemplate?.status === 'active' ? 'Hoạt động' : 'Không hoạt động'}
               </Badge>
             </div>
@@ -466,8 +468,8 @@ export default function FormTemplatePage() {
                     {selectedCodeApproval ? 'Sửa Code Approval' : 'Thêm Code Approval'}
                   </DialogTitle>
                   <DialogDescription>
-                    {selectedCodeApproval 
-                      ? 'Cập nhật thông tin code approval' 
+                    {selectedCodeApproval
+                      ? 'Cập nhật thông tin code approval'
                       : 'Thêm code approval mới vào form template'}
                   </DialogDescription>
                 </DialogHeader>
@@ -568,7 +570,7 @@ export default function FormTemplatePage() {
                       <TableCell>{codeApproval._idCodeApproval.label}</TableCell>
                       <TableCell>{codeApproval._idCodeApproval.code}</TableCell>
                       <TableCell>
-                          <Badge variant={codeApproval.status === 'active' ? "success" : "destructive"}>
+                        <Badge variant={codeApproval.status === 'active' ? "default" : "destructive"}>
                           {codeApproval.status === 'active' ? 'Hoạt động' : 'Không hoạt động'}
                         </Badge>
                       </TableCell>
@@ -614,7 +616,7 @@ export default function FormTemplatePage() {
               Thêm, sửa, xóa specific code approve cho {selectedCodeApproval?._idCodeApproval.label}
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="space-y-4">
             <div className="bg-slate-50 p-4 rounded-md">
               <h4 className="font-medium mb-2">{selectedSpecificIndex !== null ? 'Sửa' : 'Thêm'} Specific Code</h4>
@@ -653,9 +655,9 @@ export default function FormTemplatePage() {
                 </Button>
               </div>
             </div>
-            
+
             <Separator />
-            
+
             <Table>
               <TableHeader>
                 <TableRow>
@@ -714,7 +716,7 @@ export default function FormTemplatePage() {
               Thêm, sửa, xóa exclude code approve cho {selectedCodeApproval?._idCodeApproval.label}
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="space-y-4">
             <div className="bg-slate-50 p-4 rounded-md">
               <h4 className="font-medium mb-2">{selectedExcludeIndex !== null ? 'Sửa' : 'Thêm'} Exclude Code</h4>
@@ -735,9 +737,9 @@ export default function FormTemplatePage() {
                 </Button>
               </div>
             </div>
-            
+
             <Separator />
-            
+
             <Table>
               <TableHeader>
                 <TableRow>
