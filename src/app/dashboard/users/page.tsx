@@ -20,15 +20,15 @@ export default async function UsersPage() {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">Users</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Quản lý người dùng</h1>
           <UserDialog>
             <Button>
               <Plus className="w-4 h-4 mr-2" />
-              Add User
+              Thêm người dùng
             </Button>
           </UserDialog>
         </div>
-        <Suspense fallback={<div>Loading users...</div>}>
+        <Suspense fallback={<div>Đang tải danh sách người dùng...</div>}>
           <UserTable />
         </Suspense>
       </div>
